@@ -63,18 +63,17 @@ public class ExcelUtil
      * delete Record
      * @param sheetName
      * @param id
-     * @param salary
      */
     public void deleteRecord(String sheetName,String id){
         int records =0;
         try {
-            String query = "Delete from"+sheetName
-            records = connection.execute(query);
+            String query = "Delete from "+sheetName+" where EmpId="+id;
+            records = connection.executeUpdate(query);
         } catch (Exception e) {
-            System.out.println("Failed to update records "+ e.getMessage());
+            System.out.println("Failed to delete records "+ e.getMessage());
         }
         if(records>0){
-            System.out.println("record updated successfully , row "+records+" affected");
+            System.out.println("record deleted successfully , row "+records+" affected");
         }
     }
 
@@ -90,6 +89,12 @@ public class ExcelUtil
             connection = fillo.getConnection(filename.getFile());
         } catch (Exception e) {
             System.out.println("Failed to connect " + e.getMessage());
+        }
+    }
+
+    public void closeConnection(){
+        if(connection!=null){
+            connection.close();
         }
     }
 }
